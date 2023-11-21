@@ -121,32 +121,32 @@
       <div class="row">
         <div class="col-lg-7 col-md-6 offset-md-1">
           <div class="form_container">
-            <form action="">
+            <form id="myForm" >
               <div>
                 <h5>Consulta en linea <a href="#" id="getRuc"><i class="fa fa-search"></i></a></h5>
                 <br>
-                <input type="text"id="cedula" maxlength="10" name="cedula" placeholder="Cedula" />
+                <input type="text" id="cedula" maxlength="10" name="cedula" placeholder="Cedula" />
               </div>
               <div>
                 <input type="text" name="nombre" id="nombre" placeholder="Nombres" />
               </div>
               <div>
-                <input type="text" placeholder="Celular" />
+                <input type="text"  name="celular" id="celular" placeholder="Celular" />
               </div>
               <div>
-                <input type="email" placeholder="Correo" />
+                <input type="email" name="correo" id="correo" placeholder="Correo" />
               </div>
               <div>
-                <input type="text" placeholder="Direccion" />
+                <input type="text" name="direccion" id="direccion" placeholder="Direccion" />
               </div>
               <div>
-                <input type="text" placeholder="Codigo de Factura o Pedido" />
+                <input type="text" name="factura" id="factura" placeholder="Codigo de Factura o Pedido" />
               </div>
               <div>
-                <input type="text" class="message-box" placeholder="Observacion" />
+                <input type="text"   name="comentario" id="comentario" class="message-box" placeholder="Observacion" />
               </div>
               <div class="btn_box">
-                <button>
+                <button onclick="submitForm()">
                   Registrar
                 </button>
               </div>
@@ -284,27 +284,33 @@
   </script>
   <!-- End Google Map -->
   <script>
-    document.getElementById("getRuc").addEventListener("click", function () {
-        // Obtiene el valor de la cédula desde el input
-        var cedula = document.getElementById("cedula").value;
+ function submitForm() {
+    // Collect form values
+    var formData = {
+        cedula: $("#cedula").val(),
+        nombre: $("#nombre").val(),
+        celular: $("#celular").val(),
+        correo: $("#correo").val(),
+        direccion: $("#direccion").val(),
+        factura: $("#factura").val(),
+        comentario: $("#comentario").val()
+    };
 
-        // Construye la URL de la API con la cédula
-        var api_url = "https://begroupec.info/api-cedula/consultaCedula.php?cedula=" + cedula;
-
-        // Realiza la consulta a la API
-        fetch(api_url)
-            .then(response => response.json())
-            .then(data => {
-                // Guarda los datos en variables
-                var identificacion = data.identificacion;
-                var razonsocial = data.razonsocial;
-
-                // Asigna el valor al input con el id "nombre"
-                document.getElementById("nombre").value = razonsocial;
-        
-            })
-            .catch(error => console.error("Error al realizar la consulta a la API:", error));
+    // Send data to PHP script using AJAX
+    $.ajax({
+        type: "POST",
+        url: "process_form.php", // Update the URL accordingly
+        data: formData,
+        success: function(response) {
+            console.log(response);
+            // Handle the response from the server (if needed)
+        },
+        error: function(error) {
+            console.error(error);
+            // Handle errors (if any)
+        }
     });
+}
 </script>
 </body>
 
