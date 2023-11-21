@@ -20,11 +20,25 @@ $direccion = $_POST['direccion'];
 $factura = $_POST['factura'];
 $comentario = $_POST['comentario'];
 
-// Your database connection code goes here
-// Perform database inserts for 'clientes', 'pedidos', 'detalles_pedido', 'estados_pedido'
-// ...
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-// Dummy response for demonstration purposes
-$response = array('status' => 'success', 'message' => 'Data successfully inserted');
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Call the stored procedure
+$sql = "CALL InsertDataProcedure('$cedula', '$nombre', '$celular', '$correo', '$direccion', '$factura', '$comentario')";
+
+if ($conn->query($sql) === TRUE) {
+    $response = array('status' => 'success', 'message' => 'Data successfully inserted');
+} else {
+    $response = array('status' => 'error', 'message' => $conn->error);
+}
+
 echo json_encode($response);
+
+// Close the connection
+$conn->close();
 ?>
