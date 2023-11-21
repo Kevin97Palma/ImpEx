@@ -1,0 +1,5 @@
+[20-Nov-2023 22:13:30 UTC] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'mevalini_manager'@'omega.epicdns.co.uk' (using password: YES) in /home/mevalini/public_html/API/pedido.php on line 10
+[20-Nov-2023 22:13:57 UTC] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'mevalini_manager'@'localhost' (using password: YES) in /home/mevalini/public_html/API/pedido.php on line 10
+[20-Nov-2023 22:34:08 UTC] PHP Notice:  Trying to get property of non-object in /home/mevalini/public_html/API/pedido.php on line 36
+[20-Nov-2023 22:34:10 UTC] PHP Notice:  Trying to get property of non-object in /home/mevalini/public_html/API/pedido.php on line 36
+[20-Nov-2023 22:34:17 UTC] PHP Notice:  Trying to get property of non-object in /home/mevalini/public_html/API/pedido.php on line 36

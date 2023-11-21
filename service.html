@@ -107,9 +107,9 @@
   </div>
 
   <!-- service section -->
-
+<div id="busqueda"> 
   <section class="track_section layout_padding">
-    <div class="track_bg_box">
+    <div  class="track_bg_box">
       <img src="images/track-bg2.jpg" alt="">
     </div>
     <div class="container">
@@ -123,9 +123,9 @@
           <p>
       Ingresa el codigo de tu pedido para saber donde esta 
           </p>
-          <form action="">
-            <input type="text" placeholder="Enter Your Tracking Number" />
-            <button type="submit">
+          <form >
+            <input name="pedido" id="pedido" type="text" placeholder="Ingresa el codigo de tu pedido" />
+            <button  id="rastreo" name="rastreo">
               Buscar
             </button>
           </form>
@@ -133,6 +133,50 @@
       </div>
     </div>
   </section>
+</div>
+  
+  <div id="resultados" style="display: none;">
+       
+    <div class="col-sm-10">
+      
+
+      <section class="about_section layout_padding">
+        <div class="container  ">
+          <div class="row">
+    
+            
+            <div class="col-md-6 ">
+              <div class="img-box">
+                <img src="images/about-img.jpg" alt="">
+                <br>
+              </div>
+            </div>
+          
+    
+           
+            <div class="col-md-6">
+              <div class="detail-box">
+                <div class="heading_container">
+                  <p>existen datos para el código de pedido ingresado.</p>
+                  <h5>Resultados de la consulta:</h5>
+                  <p>Identificación: <span id="identificacion"></span></p>
+                  <p>Estado: <span id="nombre_estado"></span></p>
+              
+              </div>
+            </div>
+          
+    
+          </div>
+        </div>
+      </section>
+     
+
+</div>
+</div>
+
+<div id="noDatos" style="display: none;">
+  <p>No existen datos para el código de pedido ingresado.</p>
+</div>
 
   <!-- end service section -->
 
@@ -221,13 +265,13 @@
           <h4>
             Rastea tu pedido
           </h4>
-          <form action="#">
-            <input name="pedido" id="pedido" type="text" placeholder="Ingresa el codigo de tu pedido" />
-            <a  href="#" class="button" id="rastreo" name="rastreo">
+         
+            <input name="pedido1" id="pedido1" type="text" placeholder="Ingresa el codigo de tu pedido" />
+            <a  href="#" class="button" id="rastreo1" name="rastreo1">
               Buscar
             </a>
             
-          </form>
+        
         </div>
 
 
@@ -235,37 +279,7 @@
       </div>
 
 
-      <div id="miDiv" style="display: none;">
-        <label class="col-sm-8 col-form-label">Sube la firma aqui:</label>
-        <div class="col-sm-10">
-          <section class="service_section layout_padding">
-            <div class="service_container">
-              <div class="container ">
-                <div class="heading_container">
-                  <h2>
-                    Nuestros  <span>Servicios</span>
-                  </h2>
-                  <p>
-                    There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration
-                  </p>
-                </div>
-                <div class="row">
-                  <div class="col-md-12 ">
-                    <div class="box ">
-                  
-                    </div>
-                  </div>
-                
-                
-        
-                </div>
-              </div>
-            </div>
-          </section>
-    
-    </div>
-    </div>
-    
+
     </div>
   </section>
 
@@ -292,37 +306,40 @@
   </script>
   <!-- End Google Map -->
   <script>
-    document.getElementById("rastreo").addEventListener("click", function () {
-        // Obtiene el valor de la cédula desde el input
-        var id = document.getElementById("pedido").value;
+  document.getElementById("rastreo").addEventListener("click", function (event) {
+  // Evitar que el formulario se envíe y la página se recargue
+  event.preventDefault();
 
-        // Construye la URL de la API con la cédula
-        var api_url = "https://begroupec.info/api-cedula/consultaCedula.php?cedula=" + id;
+  // Obtiene el valor del código de pedido desde el input
+  var id = document.getElementById("pedido").value;
 
-        // Realiza la consulta a la API
-        fetch(api_url)
-            .then(response => response.json())
-            .then(data => {
-                // Guarda los datos en variables
-                var identificacion = data.identificacion;
-                var razonsocial = data.razonsocial;
+  // Construye la URL de la API con el código de pedido
+  var api_url = "https://www.mevalini.com/API/pedido.php?id=" + id;
 
-                // Asigna el valor al input con el id "nombre"
-                document.getElementById("nombre").value = razonsocial;
-                var select = document.getElementById("carga");
-    var div = document.getElementById("miDiv");
+  // Realiza la consulta a la API
+  fetch(api_url)
+    .then(response => response.json())
+    .then(data => {
+      if (data.id) {
+        // Si la respuesta tiene datos, mostrar el div de resultados
+        document.getElementById("resultados").style.display = "block";
+        document.getElementById("noDatos").style.display = "none"; 
+        document.getElementById("busqueda").style.display = "none";
 
-    if (select.value === "1") {
-        div.style.display = "block";  // Mostrar el div
-    } else {
-        div.style.display = "none";   // Ocultar el div
-    }
-
-            })
-            .catch(error => console.error("Error al realizar la consulta a la API:", error));
-    });
-
+        // Actualizar los elementos en el div de resultados
+        document.getElementById("identificacion").textContent = data.id;
+        document.getElementById("nombre_estado").textContent = data.nombre_estado;
+      } else {
+        // Si no hay datos, mostrar el div de mensaje
+        document.getElementById("resultados").style.display = "none";
+        document.getElementById("noDatos").style.display = "block";
+      }
+    })
+    .catch(error => console.error("Error al realizar la consulta a la API:", error));
+  // Resto del código de tu función...
+});
   
+
 </script>
 </body>
 
