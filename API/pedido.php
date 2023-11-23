@@ -30,7 +30,22 @@ if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
     // Consultar la base de datos
-    $sql = "SELECT * FROM `estados` WHERE id = $id";
+    $sql = "SELECT 
+    pedidos.id AS id_pedido,
+    pedidos.estado_pedido,
+    pedidos.comentario_estado,
+    clientes.id AS id_cliente,
+    clientes.cedula,
+    clientes.nombre,
+    clientes.telefono,
+    clientes.correo,
+    clientes.direccion
+FROM 
+    pedidos
+JOIN 
+    clientes ON pedidos.id_cliente_fk = clientes.id
+WHERE 
+    pedidos.id = $id ; ";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
